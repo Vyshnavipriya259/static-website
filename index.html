@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My DevOps Website</title>
+    <title>DevOps Auto Deployment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            text-align: center;
+            padding-top: 100px;
+        }
+        .box {
+            background: white;
+            width: 50%;
+            margin: auto;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        p {
+            color: #555;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: gray;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello DevOps 🚀</h1>
-    <p>This website is deployed automatically using CI/CD pipeline.</p>
+
+<div class="box">
+    <h1>🚀 DevOps CI/CD Pipeline Success</h1>
+    <p>This static website is automatically deployed</p>
+    <p>Whenever code is pushed to the <b>main</b> branch.</p>
+
+    <div class="footer">
+        <p>Deployed using GitHub Actions + Linux + Nginx</p>
+    </div>
+</div>
+
 </body>
 </html>
