@@ -1,4 +1,4 @@
-name: Deploy Static Website to RedHat Server
+name: Deploy Static Website to AWS Linux Server
 
 on:
   push:
@@ -10,18 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Deploy to RedHat EC2 via SSH
-        uses: appleboy/ssh-action@master
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ec2-user
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo mkdir -p /usr/share/nginx/html
+            # Navigate to nginx web root
             cd /usr/share/nginx/html
-            git fetch --all
-            git reset --hard origin/main
+
+            # If repo not present, clone it
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git .
+            else
+              git fetch --all
+              git reset --hard origin/main
+            fi
+
+            # Restart nginx
             sudo systemctl restart nginx
