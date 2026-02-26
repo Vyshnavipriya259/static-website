@@ -1,4 +1,4 @@
-name: Deploy Docker Website to AWS EC2
+name: Deploy Static Website to AWS Linux Server
 
 on:
   push:
@@ -10,33 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ec2-user
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Go to home directory
-            cd /home/ec2-user
+            cd /usr/share/nginx/html
 
-            # Clone repo if not exists
-            if [ ! -d "static-website" ]; then
-              git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/Vyshnavipriya259/static-website.git .
+            else
+              git fetch --all
+              git reset --hard origin/main
             fi
 
-            # Go inside project folder
-            cd static-website
-
-            # Pull latest code
-            git pull origin main
-
-            # Stop and remove old container
-            sudo docker stop mycontainer || true
-            sudo docker rm mycontainer || true
-
-            # Rebuild Docker image
-            sudo docker build -t mywebsite .
-
-            # Run new container
-            sudo docker run -d -p 80:80 --name mycontainer mywebsite
+            sudo systemctl restart nginx
