@@ -1,49 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DevOps Auto Deployment</title>
+    <meta charset="UTF-8">
+    <title>DevOps Deployment Status</title>
     <style>
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            text-align: center;
-            padding-top: 100px;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
         }
-        .box {
+
+        .card {
             background: white;
-            width: 50%;
-            margin: auto;
+            color: #333;
             padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            width: 500px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
+
         h1 {
-            color: #2c3e50;
+            margin-bottom: 10px;
+            color: #2a5298;
         }
+
+        .status {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
         p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .date {
+            margin-top: 15px;
+            font-weight: bold;
             color: #555;
         }
+
         .footer {
             margin-top: 30px;
-            font-size: 14px;
+            font-size: 13px;
             color: gray;
         }
+
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #1e3c72;
+        }
+
     </style>
 </head>
+
 <body>
 
-<div class="box">
-    <h1>🚀 DevOps CI/CD Pipeline Success</h1>
-    <p>This static website is automatically deployed</p>
-    <p>Whenever code is pushed to the <b>main</b> branch.</p>
-    
-<h2 style="color:green;">CI/CD Deployment Successful 🚀</h2>
-<p>Updated automatically on: 25 Feb 2026</p>
+<div class="card">
+    <h1>🚀 CI/CD Pipeline Report</h1>
 
-    <h3>checking whether working correctly or not</h3>
+    <div class="status">Deployment Successful</div>
+
+    <p>This static website is deployed automatically using a CI/CD pipeline.</p>
+    <p>Every push to the <b>main</b> branch triggers a new deployment.</p>
+
+    <div class="date">
+        Last Updated: 26 Feb 2026
+    </div>
+
+    <button class="btn">Deployment Verified ✔</button>
 
     <div class="footer">
-        <p>Deployed using GitHub Actions + Linux + Nginx</p>
+        Powered by GitHub Actions | Docker | Nginx | Linux
     </div>
 </div>
 
