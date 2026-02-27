@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -24,17 +21,15 @@ jobs:
 
             if [ ! -d "static-website" ]; then
               git clone https://github.com/Vyshnavipriya259/static-website.git
-            else
-              cd static-website
-              git fetch --all
-              git reset --hard origin/main
-              cd ..
             fi
 
             cd static-website
 
-            sudo docker stop mycontainer || true
-            sudo docker rm mycontainer || true
+            git fetch --all
+            git reset --hard origin/main
 
-            sudo docker build -t mywebsite .
-            sudo docker run -d -p 80:80 --name mycontainer mywebsite
+            docker stop mycontainer || true
+            docker rm mycontainer || true
+
+            docker build -t mywebsite .
+            docker run -d -p 80:80 --name mycontainer mywebsite
