@@ -1,4 +1,4 @@
-name: Deploy Docker Website to EC2
+name: Deploy Website to EC2 (Nginx)
 
 on:
   push:
@@ -17,19 +17,9 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~
-
-            if [ ! -d "static-website" ]; then
-              git clone https://github.com/Vyshnavipriya259/static-website.git
-            fi
-
-            cd static-website
+            cd /usr/share/nginx/html
 
             git fetch --all
             git reset --hard origin/main
 
-            docker stop mycontainer || true
-            docker rm mycontainer || true
-
-            docker build -t mywebsite .
-            docker run -d -p 80:80 --name mycontainer mywebsite
+            sudo systemctl restart nginx
