@@ -1,4 +1,4 @@
-name: Deploy Website to EC2 (Nginx)
+name: CI-CD Pipeline
 
 on:
   push:
@@ -6,20 +6,35 @@ on:
       - main
 
 jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Validate Docker Build
+        run: docker build -t mywebsite .
+
   deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.10
+
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /usr/share/nginx/html
 
+          script: |
+            cd static-website
             git fetch --all
             git reset --hard origin/main
-
-            sudo systemctl restart nginx
+            sudo docker stop mycontainer || true
+            sudo docker rm mycontainer || true
+            sudo docker build -t mywebsite .
+            sudo docker run -d -p 80:80 --name mycontainer mywebsite
